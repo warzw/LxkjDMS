@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapliner="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.base.BaseEntity" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="lxkj.train.com.mvp.view.activity.BasicInfoActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="姓名:"
+                        mapliner:textRight="" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="工号:"
+                        mapliner:textRight="18810497522" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="局:"
+                        mapliner:textRight="郑州铁路局" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="段:"
+                        mapliner:textRight="三门峡机务段" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="车间:"
+                        mapliner:textRight="三门峡动车运用车间" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="车队:"
+                        mapliner:textRight="动车车间" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_dd"
+                    />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="指导组:"
+                        mapliner:textRight="安全技术员" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="师徒关系"
+                        mapliner:textRight="" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="司机等级:"
+                        mapliner:textRight="" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="备注:"
+                        mapliner:textRight="" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="工资等级:"
+                        mapliner:textRight="" />
+
+                    <lxkj.train.com.view.MapLinerView
+                        android:id="@+id/mapLinerView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        mapliner:isShowLine="true"
+                        mapliner:textLeft="政治面貌:"
+                        mapliner:textRight="" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

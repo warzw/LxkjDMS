@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.panscarlic.pay.view.RollSwipeToLoadLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeToLoadLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <lxkj.train.com.view.RecyclerViewHead
+        android:id="@+id/swipe_refresh_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/swipe_target"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <lxkj.train.com.view.RecyclerViewFooter
+        android:id="@+id/swipe_load_more_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.panscarlic.pay.view.RollSwipeToLoadLayout>

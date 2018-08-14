@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="borderRadius" format="dimension" />
+    <attr name="imageType">
+        <enum name="circle" value="0" />
+        <enum name="round" value="1" />
+    </attr>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="borderRadius" />
+        <attr name="imageType" />
+    </declare-styleable>
+
+    <declare-styleable name="TitleBar">
+        <attr name="leftTitleImage" format="reference" />
+        <attr name="contentTitle" format="string" />
+        <attr name="rightTitleImage" format="reference" />
+        <attr name="backtrack" format="string" />
+    </declare-styleable>
+    <!--线性布局-->
+    <declare-styleable name="MapLinerView">
+        <attr name="textLeft" format="string" />
+        <attr name="textRight" format="string" />
+        <attr name="etRight" format="string" />
+        <attr name="isShow" format="boolean" />
+        <attr name="isPhone" format="boolean" />
+        <attr name="isPhoneNumber" format="boolean" />
+        <attr name="isBackImage" format="boolean" />
+        <attr name="textLeftColor" format="color" />
+        <attr name="textRightColor" format="color" />
+        <attr name="textLength" format="integer" />
+        <attr name="images" format="integer" />
+        <attr name="isShowLine" format="boolean" />
+        <attr name="isnNumberAZ" format="boolean" />
+        <attr name="leftSize" format="dimension"/>
+        <attr name="rightSize" format="dimension"/>
+        <attr name="leftMargin" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="GestureLockViewGroup">
+        <attr name="color_no_finger_inner_circle" />
+        <attr name="color_no_finger_outer_circle" />
+        <attr name="color_finger_on" />
+        <attr name="color_finger_up" />
+        <attr name="count" />
+        <attr name="tryTimes" />
+    </declare-styleable>
+</resources>

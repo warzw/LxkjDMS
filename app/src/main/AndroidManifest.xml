@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="lxkj.train.com">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 科大讯飞语音权限 -->
+    <!-- 连接网络权限，用于执行云端语音能力 -->
+    <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <!-- 读取网络信息状态 -->
+    <!-- 获取当前wifi状态 -->
+    <!-- 允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 读取手机信息权限 -->
+    <!-- 读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- 外存储写权限，构建语法需要用到此权限 -->
+    <!-- 外存储读权限，构建语法需要用到此权限 -->
+    <!-- 配置权限，用来记录应用配置信息 -->
+    <!-- 手机定位信息，用来为语义等功能提供定位，提供更精准的服务 -->
+    <!-- 定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 如需使用人脸识别，还要添加：摄相头权限，拍照需要用到 -->
+    <application
+        android:name=".mvp.view.activity.base.BaseApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/icon"
+        android:label="司机导引"
+        android:roundIcon="@mipmap/icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme"
+        android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity
+            android:name=".mvp.view.activity.MainActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".mvp.view.activity.ReadFileActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.ShowFileActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.BasicInfoActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.AnnouncementActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.DriveGuideActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.PlayTapingActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.TrainNumberActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.ServiceSetActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.GestureActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.SimulateGuideActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.RecordActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.artifex.mupdflib.MuPDFActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.artifex.mupdflib.PrintDialogActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.artifex.mupdflib.PDFPreviewGridActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.CallTheWatchActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.TrainQueryActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".mvp.view.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".mvp.view.activity.UnloadActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".mvp.view.activity.MyTaskActivity"
+            android:screenOrientation="landscape"/>
+    </application>
+
+</manifest>

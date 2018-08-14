@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.DirectoryOrFileEntity" />
+    </data>
+    <RelativeLayout
+        android:id="@+id/mLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <LinearLayout
+            android:layout_above="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_fileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                android:text="@{viewModel.name}"
+                android:layout_marginLeft="20dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                android:layout_marginLeft="20dp"
+                android:text="@{viewModel.time}"
+                />
+            <TextView
+                android:id="@+id/tv_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                android:layout_marginLeft="20dp"
+                />
+        </LinearLayout>
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear0.5"
+            android:background="@color/gray_dd"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+
+</layout>

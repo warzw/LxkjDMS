@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    tools:context="lxkj.train.com.mvp.view.activity.GestureActivity">
+    <lxkj.train.com.view.GestureLockViewGroup
+        android:layout_centerInParent="true"
+        android:id="@+id/gestureLockViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F7"
+        android:gravity="center"
+        zhy:count="4"
+        zhy:tryTimes="5" />
+    <!--   zhy:color_no_finger_inner_circle="#ff085D58"
+            zhy:color_no_finger_outer_circle="#ff08F0E0"
+            zhy:color_finger_on="#FF1734BF" -->
+
+
+
+</RelativeLayout>

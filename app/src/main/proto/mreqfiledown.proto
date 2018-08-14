@@ -1,0 +1,127 @@
+syntax = "proto2";
+package tutorial;
+option java_package = "com.example.tutorial";
+option java_outer_classname = "MReqFileDownProto";
+
+message MReqFileDown { //请求
+                       required uint32 subtype = 1; //子类型
+                       required uint32 reqtime = 2; //请求时间
+                       required uint32 uuid = 3; //回话ID
+                       required bytes content = 4; //具体内容
+}
+message SucceedFileDown { //返回
+                          required uint32 subtype = 1; //子类型
+                          required uint32 reqtime = 2; //请求时间
+                          required RespCommon comm = 3; //回话ID
+                          required bytes content = 4; //具体内容
+}
+message RespCommon {
+    required uint32 code = 1; //响应编码
+    required bytes content = 2; //响应内容
+}
+message MReqBasicData {
+    required uint32 basetype = 1; //基础数据类型，0 基础表，1 时刻表
+    required bytes md5 = 2; //基础数据文件MD5码
+    required uint32 time = 3; //时刻表日期
+};
+
+//	zip: 压缩标记；0为不压缩，1为压缩；
+//	tlen: 回应的数据总长度；即基础数据文件的大小；
+//	id: 当前发送的数据包序号；数据包序号从0开始，增量为1；
+//	len:bytes数据流的长度；
+//	data:sqlite数据库文件流的一部分；sqlite库中表结构与oracle数据库中表结构保持一致，参见《数据库详细设计说明书》；
+//	more:标识此数据包是否为最后一包；0标识还有后续包，1标识为最后一包；暂不使用。
+message MRespBasicData { //基础数据
+     required uint32 basetaype = 1;
+     required uint32 zip = 2;
+     required uint32 tlen = 3;
+     required uint32 id = 4;
+     required uint32 len = 5;
+     required bytes data = 6;
+     required uint32 more = 7;
+     required uint32 time = 8;
+}
+message MRespBizFileData {//业务数据下载
+    required bytes filepath = 1;
+    required uint32 zip = 2;
+    required uint32 tlen = 3;
+    required uint32 id = 4;
+    required uint32 len = 5;
+    required bytes data = 6;
+    required uint32 more = 7;
+}
+//请求文件
+message MReqBizFileData {
+    required bytes md5 = 1; //请求数据文件MD5码
+    required bytes filepath = 2; //文件路径
+}
+message MReqNotice //公告查询
+{
+    required uint32 driverid = 1;
+}
+message MRespNoticeList {
+    repeated mRespNotice notice = 1;
+}
+message mRespNotice {
+    required bytes type = 1;
+    required uint32 time = 2;
+    required bytes content = 3;
+}
+message MReqQuery {
+    required uint32 subtype = 1; //子类型
+    required uint32 reqtime = 2; //请求时间
+    required bytes content = 3; //具体内容
+}
+message MReqAttndPlan { //出勤计划，请求
+                        required uint32 timebegin = 1; //起始时间
+                        required uint32 timeend = 2; //结束时间
+                        required uint32 driverid = 3; //司机号
+}
+message MRespAttndPlan {
+    required uint32 driverid = 1;  //司机号
+    repeated MAttndPlanInfo info = 2; //出勤信息
+}
+message MAttndPlanInfo {
+    required uint32 attndtime = 1; //出勤时间
+    required string trainnum = 2; //车次号
+    required string attndstation = 3; //出乘站
+    required uint32 starttime = 4; //发车时间
+    required uint32 starttrackno = 5; //发车股道
+    required string retreatstation = 6; //退乘车站
+    required uint32 retreattime = 7; //退乘时间
+}
+//列车当前位置查询请求：
+message MReqTrainPos {
+    required string trainnum = 1; //车次
+    required uint32 trainid = 2; //车号
+}
+
+//列车当前位置查询响应：
+message MRespTrainPos {
+    required uint32 curtime = 1; //当前时间
+    required uint32 trainid = 2; //车号
+    required string trainnum = 3; //车次
+    required uint32 speed = 4; //车速
+    required string curstation = 5; //当前车站
+    required uint32 islate = 6; //是否晚点
+    required uint32 arriveid = 7; //将要到达的车站id
+    repeated MArriveInfo arriveinfo = 8; //前方到达车站信息
+    optional string routerinfo = 9;  //进路文本信息，只有进站有，出站无
+}
+message MArriveInfo {
+    required string nextstation = 1; //前方到站
+    required uint32 distance = 2; //据前方车站距离
+    required uint32 expecttime = 3; // 到站时间预计时间
+    optional uint32 timespan = 4; //到达前方车站的还剩余多少时间，如果已过，车辆不更新
+    required uint32 expecttrackno = 5; // 预计进路股道号
+    required uint32 routertype = 6; //进路类型，通过，停车
+    optional uint32 realtime = 7; //到站实际时间
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.AnnouncementEntity" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.title}"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            />
+        <ImageView
+            android:id="@+id/iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@+id/tv_title"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/messagecenter_icon_new"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.time}"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/gray_33"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.content}"
+            android:textColor="@color/gray_33"
+            android:textSize="14dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear0.5"
+            android:background="@color/gray_dd"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginTop="5dp"
+            />
+    </RelativeLayout>
+</layout>

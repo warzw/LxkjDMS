@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.base.BaseEntity" />
+    </data>
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="lxkj.train.com.mvp.view.activity.SimulateGuideActivity">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <lxkj.train.com.view.DmsGuideView
+                android:id="@+id/dms_guideView"
+                android:background="@color/white"
+                android:layout_width="0dp"
+                android:layout_weight="4.5"
+                android:layout_height="match_parent" />
+            <lxkj.train.com.view.InDetailGuideView
+                android:layout_toRightOf="@+id/dms_guideView"
+                android:background="@color/gray_33"
+                android:layout_width="0dp"
+                android:layout_weight="5.5"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</layout>

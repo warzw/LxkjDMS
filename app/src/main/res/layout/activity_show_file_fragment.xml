@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.base.BaseEntity" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="lxkj.train.com.mvp.view.fragment.ShowFileFragment">
+        <RelativeLayout
+            android:id="@+id/layout_search"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:background="@color/gray_f5"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:background="@drawable/circle_round"
+                android:layout_toRightOf="@+id/layout_background"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:hint="请输入关键词搜索商户"
+                android:textColor="@color/gray_33"
+                android:textSize="14dp"
+                android:textColorHint="@color/gray_cccccc"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                />
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wuliu_search_icon"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                />
+            <LinearLayout
+                android:id="@+id/layout_background"
+                android:background="@color/white"
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/nav_icon_back_default"
+                    />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_33"
+                    android:text="返回上级"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/binearone" />
+    </LinearLayout>
+</layout>
