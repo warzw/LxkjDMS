@@ -14,12 +14,15 @@ import java.util.List;
 import lxkj.train.com.R;
 import lxkj.train.com.adapter.CallTheWatchAdapter;
 import lxkj.train.com.adapter.LableAdapter;
+import lxkj.train.com.adapter.UnloadAdapter;
 import lxkj.train.com.databinding.ActivityUnloadBinding;
 import lxkj.train.com.entity.base.BaseEntity;
+import lxkj.train.com.entity.realm.UnloadRealm;
 import lxkj.train.com.interfaces.OnRecyclerItemClickListener;
 import lxkj.train.com.mvp.view.activity.base.BaseActivity;
 import lxkj.train.com.utils.EditTextUtil;
 import lxkj.train.com.utils.SharedPreferencesUtil;
+import lxkj.train.com.utils.UnloadDataUtil;
 import lxkj.train.com.view.TimePopupWindow;
 
 /**
@@ -33,6 +36,8 @@ public class UnloadPresenter extends BasePresenter implements OnRecyclerItemClic
     private LableAdapter lableAdapter;
     private String time1 = "";
     private String time2 = "";
+    private List<UnloadRealm> datas;
+
     public UnloadPresenter(BaseActivity activity, ActivityUnloadBinding binding) {
         super(activity, binding);
         this.binding = binding;
@@ -42,6 +47,10 @@ public class UnloadPresenter extends BasePresenter implements OnRecyclerItemClic
         initData();
     }
     private void initData(){
+        datas = dataBaseUtil.getQueryData(UnloadRealm.class);
+        if (datas != null&&datas.size()>0) {
+            setLinearAdapter(binding.recyclerView,RecyclerView.VERTICAL,new UnloadAdapter(activity,datas,null),null);
+        }
         String lablestr = SharedPreferencesUtil.getStringData(activity,"lableDatasUnload","");
         if (!TextUtils.isEmpty(lablestr)) { //说明有过搜索记录
             String[] lablestrs = lablestr.split(",");

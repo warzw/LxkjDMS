@@ -9,7 +9,9 @@ import io.realm.RealmObject;
 public class UnloadRealm extends RealmObject {
     private String number;
     private String FileName;
-
+    private String creatTime;
+    private String FileZise;
+    private String staus;
     public String getNumber() {
         return number;
     }
@@ -50,7 +52,4 @@ public class UnloadRealm extends RealmObject {
         this.staus = staus;
     }
 
-    private String creatTime;
-    private String FileZise;
-    private String staus;
 }

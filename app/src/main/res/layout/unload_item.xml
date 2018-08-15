@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="lxkj.train.com.entity.realm.UnloadRealm" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear0.5"
+            android:background="@color/gray_f5"
+            />
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.number}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.fileName}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.creatTime}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.fileZise}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.staus}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+        </LinearLayout>
+        <View
+            android:id="@+id/line2"
+            android:layout_below="@+id/tv_14"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear0.5"
+            android:background="@color/gray_f5"
+            />
+    </RelativeLayout>
+</layout>
