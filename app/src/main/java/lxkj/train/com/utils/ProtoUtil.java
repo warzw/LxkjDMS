@@ -138,7 +138,7 @@ public class ProtoUtil{
         // 转换为Byte
         return product.toByteString();
     }
-    public static MReqFileDownProto.MRespAttndPlan getMAttndPlanInfo(ByteString bytes){ //司机出勤计划
+    public static MReqFileDownProto.MRespAttndPlan getMRespAttndPlan(ByteString bytes){ //司机出勤计划
         // 反解
         try
         {
@@ -170,6 +170,29 @@ public class ProtoUtil{
         try
         {
             return MReqFileDownProto.MRespTrainPos.parseFrom(bytes);
+        }
+        catch (InvalidProtocolBufferException e)
+        {
+            e.printStackTrace();
+            LogUtils.i("InvalidProtocolBufferException",e.getMessage());
+            return null;
+        }
+    }
+    //查询司机叫班，请求 pb
+    public static ByteString getMReqCurDriverAttnd(int driverid){
+        MReqFileDownProto.MReqCurDriverAttnd.Builder builder = MReqFileDownProto.MReqCurDriverAttnd.newBuilder();
+        // 生成product对象
+        builder.setDriverid(driverid);
+        MReqFileDownProto.MReqCurDriverAttnd product = builder.build();
+        // 转换为Byte
+        return product.toByteString();
+    }
+    //司机叫班 响应 pb
+    public static MReqFileDownProto.MRespCurDriverAttnd getMRespCurDriverAttnd(ByteString bytes){ //司机出勤计划
+        // 反解
+        try
+        {
+            return MReqFileDownProto.MRespCurDriverAttnd.parseFrom(bytes);
         }
         catch (InvalidProtocolBufferException e)
         {

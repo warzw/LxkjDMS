@@ -58,7 +58,7 @@ public class CallTheWatchPresenter extends BasePresenter implements TimePopupWin
     public CallTheWatchPresenter(BaseActivity activity, ActivityCallTheWatchBinding binding) {
         super(activity, binding);
         this.binding = binding;
-        activity.mTitle_bar.setCentreText("出勤叫班");
+        activity.mTitle_bar.setCentreText("出勤计划");
         activity.mLifecyclePresenterInterface = this;
         setOnViewClick(binding.ivSearch,binding.ivCalendar);
         initData();
@@ -121,13 +121,13 @@ public class CallTheWatchPresenter extends BasePresenter implements TimePopupWin
     public void requestData() {
         //司机出勤计划查询
         dataModel.getData(RequestUtil.requestByteData((byte) 3, (short) 2, ProtoUtil.getMReqQuery(1,
-                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqAttndPlan(1,startTime,endTime))));
+                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqAttndPlan(13769185,startTime,endTime))));
     }
 
     @Override
     public void succeed(byte servicetype, int subtype, ByteString bytes) {
         if (servicetype == 3 && subtype == 1) { //数据查询，查询司机出勤计划
-            MReqFileDownProto.MRespAttndPlan mAttndPlanInfo = ProtoUtil.getMAttndPlanInfo(bytes);
+            MReqFileDownProto.MRespAttndPlan mAttndPlanInfo = ProtoUtil.getMRespAttndPlan(bytes);
             assert mAttndPlanInfo != null;
             List<MReqFileDownProto.MAttndPlanInfo> list = mAttndPlanInfo.getInfoList();
             if (list !=null&&list.size()>0) {
@@ -135,13 +135,13 @@ public class CallTheWatchPresenter extends BasePresenter implements TimePopupWin
             }
             for (int i = 0; i <list.size() ; i++) {
                 CallTheWatchEntity callTheWatchEntity = new CallTheWatchEntity();
-                callTheWatchEntity.setAttndstation(list.get(i).getAttndstation());
-                callTheWatchEntity.setAttndtime(""+StringUtil.getTimeStringToInt(list.get(i).getAttndtime()));
-                callTheWatchEntity.setRetreatstation(list.get(i).getRetreatstation());
-                callTheWatchEntity.setRetreattime(""+StringUtil.getTimeStringToInt(list.get(i).getRetreattime()));
-                callTheWatchEntity.setStarttime(""+StringUtil.getTimeStringToInt(list.get(i).getStarttime()));
-                callTheWatchEntity.setStarttrackno(""+list.get(i).getStarttrackno());
-                callTheWatchEntity.setTrainnum(list.get(i).getTrainnum());
+                callTheWatchEntity.setAttndstation(list.get(i).getPlantrainnum());
+                callTheWatchEntity.setAttndtime(""+StringUtil.getTimeStringToInt(list.get(i).getPlanondutytime()));
+                callTheWatchEntity.setRetreatstation(list.get(i).getPlandepstation());
+                callTheWatchEntity.setRetreattime(""+StringUtil.getTimeStringToInt(list.get(i).getPlandeptime()));
+//                callTheWatchEntity.setStarttime(""+StringUtil.getTimeStringToInt(list.get(i).getStarttime()));
+//                callTheWatchEntity.setStarttrackno(""+list.get(i).getStarttrackno());
+//                callTheWatchEntity.setTrainnum(list.get(i).getTrainnum());
                 datas.add(callTheWatchEntity);
             }
             adapter.notifyDataSetChanged();
@@ -152,8 +152,8 @@ public class CallTheWatchPresenter extends BasePresenter implements TimePopupWin
     }
     private void remind(List<MReqFileDownProto.MAttndPlanInfo> list){
         for (int i = 0; i < list.size(); i++) {
-            if ((int)System.currentTimeMillis()/1000>=list.get(i).getAttndtime()) { //出勤时间需要大于当前时间
-                int timeLag  = (int) System.currentTimeMillis()/1000 - list.get(i).getAttndtime();
+            if ((int)System.currentTimeMillis()/1000>=list.get(i).getPlanondutytime()) { //出勤时间需要大于当前时间
+                int timeLag  = (int) System.currentTimeMillis()/1000 - list.get(i).getPlanondutytime();
                 if (timeLag<=60000*15) { //出勤前15分钟开始提醒
                     DialogView.hintDialog(activity,this,"叫班提醒","距您下次出勤还有15分钟,请准备",false);
                     startAnimation();
@@ -196,8 +196,8 @@ public class CallTheWatchPresenter extends BasePresenter implements TimePopupWin
 
     @Override
     public void getTime(String time, String time2) {
-        startTime =(int) (StringUtil.stringToLong(time, "yyyy-MM-dd")/1000);
-        endTime =(int) (StringUtil.stringToLong(time2, "yyyy-MM-dd")/1000);
+        startTime = ((int)(StringUtil.stringToLong(time, "yyyy-MM-dd"))/1000);
+        endTime =((int) (StringUtil.stringToLong(time2, "yyyy-MM-dd"))/1000);
     }
 
     @Override

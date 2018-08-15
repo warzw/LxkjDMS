@@ -62,19 +62,24 @@ import lxkj.train.com.utils.LogUtils;
 import lxkj.train.com.utils.PermissionsManager;
 import lxkj.train.com.utils.PicUtil;
 import lxkj.train.com.utils.ProtoUtil;
+import lxkj.train.com.utils.RemindUtil;
 import lxkj.train.com.utils.RequestUtil;
+import lxkj.train.com.utils.RxJavaUtil;
 import lxkj.train.com.utils.SearchFile;
 import lxkj.train.com.utils.SetBrightnessUtil;
 import lxkj.train.com.utils.SharedPreferencesUtil;
 import lxkj.train.com.utils.StringUtil;
 import lxkj.train.com.utils.SystemCapacityUtil;
+import lxkj.train.com.utils.SystemUtil;
 import lxkj.train.com.utils.http.NetworkUtils;
 import lxkj.train.com.view.DialogView;
 import lxkj.train.com.view.LoadingDialog;
 import lxkj.train.com.view.PayPasswordUtil;
 import lxkj.train.com.view.PayPwdView;
 import lxkj.train.com.view.TapingDialog;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -82,13 +87,13 @@ import static android.app.Activity.RESULT_OK;
  * Created by dell on 2018/6/8.
  */
 
-public class MainPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener,DataBaseRealmInterface,ActivityResultInterface, PermissionsManager.CheckCallBack, OnRecyclerItemClickListener, DialogView.DialogCancel, Observer<String>, LifecyclePresenterInterface, CompoundButton.OnCheckedChangeListener, PayPwdView.InputCallBack, SeekBar.OnSeekBarChangeListener {
-    private ActivityMainBinding binding;
+public class MainPresenter extends BasePresenter implements DialogView.DialogConfirm,AdapterView.OnItemSelectedListener, DataBaseRealmInterface, ActivityResultInterface, PermissionsManager.CheckCallBack, OnRecyclerItemClickListener, DialogView.DialogCancel, Observer<String>, LifecyclePresenterInterface, CompoundButton.OnCheckedChangeListener, PayPwdView.InputCallBack, SeekBar.OnSeekBarChangeListener {
+    public ActivityMainBinding binding;
     private List<MainEntity> datas = new ArrayList<>();
     private int[] images = {R.mipmap.icon01, R.mipmap.icon02, R.mipmap.icon03,
-            R.mipmap.icon08, R.mipmap.icon07, R.mipmap.icon09,R.mipmap.icon10};
+            R.mipmap.icon08, R.mipmap.icon07, R.mipmap.icon09, R.mipmap.icon10};
     private String[] texts = {"公告查看", "规章资料", "学习资料", "应急处理",
-            "我的任务", "列车查询","退勤转储"}; //"行车导引","安全预想",
+            "我的任务", "列车查询", "退勤转储"}; //"行车导引","安全预想",
     private Intent intent;
     private String environmentPath = Environment.getExternalStorageDirectory().getPath() + "/" + "lxkj" + "/";
     private int currentBrightness;
@@ -97,15 +102,21 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
     private FileUtil fileUtil;
     private TapingDialog tapingDialog;
     private Handler hd = new Handler();
-    String[] arr={"10分钟","20分钟","30分钟","40分钟","50分钟","60分钟","70分钟","80分钟","90分钟","100分钟","110分钟","120分钟"};
+    private String[] arr = {"10分钟", "20分钟", "30分钟", "40分钟", "50分钟", "60分钟", "70分钟", "80分钟", "90分钟", "100分钟", "110分钟", "120分钟"};
+    protected boolean isConfirm;
+    public boolean isOpenDrawer;
     public MainPresenter(BaseActivity activity, ActivityMainBinding binding) {
         super(activity, binding);
         this.binding = binding;
         activity.activityResultInterface = this;
+        if (TextUtils.isEmpty(SharedPreferencesUtil.getStringData(activity,"spinnerData",""))) {
+            SharedPreferencesUtil.saveStringData(activity, "spinnerData", arr[1]);
+        }
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         activity.mLifecyclePresenterInterface = this;
         new ZeroMQMessageUtil(this);
-        setOnViewClick(binding.layoutInfo, binding.marqueeText,binding.headPic);
+        setOnViewClick(binding.layoutInfo, binding.marqueeText, binding.headPic);
+        new RemindUtil(dataModel);
         requestData();
         initEvent();
 
@@ -170,7 +181,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
         binding.tvLeftBottom1.setText(currentTime_week);
         binding.tvLeftBottom2.setText(currentTime_hms);
         binding.tvLeftBottom3.setText(currentTime_ymd);
-        binding.tvNumber.setText(""+OverallData.driverNum);
+        binding.tvNumber.setText("" + OverallData.driverNum);
         setGridAdapter(binding.recyclerView, 4, new MainAdapter(activity, datas, null), this);
     }
 
@@ -181,9 +192,9 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             intent = new Intent(activity, BasicInfoActivity.class);
             activity.startActivity(intent);
         } else if (v.getId() == R.id.headPic) { //登陆认证
-            intent = new Intent(activity, LoginActivity.class);
-            activity.startActivity(intent);
-        }else if (v.getId() == R.id.marqueeText) { //系统消息弹窗
+//            intent = new Intent(activity, LoginActivity.class);
+//            activity.startActivity(intent);
+        } else if (v.getId() == R.id.marqueeText) { //系统消息弹窗
             DialogView.systemNoticeDialog(activity, "系统消息", "发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则发文动车组司机操做规则", this);
         } else if (v.getId() == R.id.drawer_tv_taping) { //录音
             if (Build.VERSION.SDK_INT >= 23) {
@@ -192,11 +203,12 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
                     public void onSuccess(String permission) {
                         if (tapingDialog == null) {
                             tapingDialog = new TapingDialog(activity);
-                        }else {
+                        } else {
                             tapingDialog.show();
                         }
 
                     }
+
                     @Override
                     public void onError(String permission) {
                     }
@@ -204,7 +216,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             } else {
                 if (tapingDialog == null) {
                     tapingDialog = new TapingDialog(activity);
-                }else {
+                } else {
                     tapingDialog.show();
                 }
             }
@@ -219,7 +231,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             binding.spinner.performClick();
         } else if (v.getId() == R.id.drawer_data_sync) { //数据同步
 
-        }else if (v.getId() == R.id.drawer_tv_setService) { //服务器设置
+        } else if (v.getId() == R.id.drawer_tv_setService) { //服务器设置
             intent = new Intent(activity, ServiceSetActivity.class);
             activity.startActivity(intent);
         } else if (v.getId() == R.id.drawer_tv_navigation) { //模拟导引
@@ -237,70 +249,82 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
     public void requestData() {
         fileUtil = new FileUtil();
         //基础下载数据
-        dataModel.getData(RequestUtil.requestByteData((byte)2, (short) 2,ProtoUtil.getMReqFileDown(1,(int) (System.currentTimeMillis()/1000),1,ProtoUtil.getMReqBasicData(0,ByteString.copyFrom("0".getBytes())))));
+        dataModel.getData(RequestUtil.requestByteData((byte) 2, (short) 2, ProtoUtil.getMReqFileDown(1, (int) (System.currentTimeMillis() / 1000), 1, ProtoUtil.getMReqBasicData(0, ByteString.copyFrom("0".getBytes())))));
         //基础下载数据---车次数据下载
-        dataModel.getData(RequestUtil.requestByteData((byte)2, (short) 2,ProtoUtil.getMReqFileDown(1,(int) (System.currentTimeMillis()/1000),1,ProtoUtil.getMReqBasicData(1,ByteString.copyFrom("1".getBytes())))));
+        dataModel.getData(RequestUtil.requestByteData((byte) 2, (short) 2, ProtoUtil.getMReqFileDown(1, (int) (System.currentTimeMillis() / 1000), 1, ProtoUtil.getMReqBasicData(1, ByteString.copyFrom("1".getBytes())))));
         //公告查询数据
-        dataModel.getData(RequestUtil.requestByteData((byte)3, (short) 2,ProtoUtil.getMReqQuery(4,(int) (System.currentTimeMillis()/1000),ProtoUtil.getMReqNotice(1))));
-        //司机出勤计划查询
-        dataModel.getData(RequestUtil.requestByteData((byte) 3, (short) 2, ProtoUtil.getMReqQuery(1,
-                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqAttndPlan(1,(int) System.currentTimeMillis()/1000,(int) System.currentTimeMillis()/1000))));
+        dataModel.getData(RequestUtil.requestByteData((byte) 3, (short) 2, ProtoUtil.getMReqQuery(4, (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqNotice(1))));
+        //司机叫班查询
+        dataModel.getData(RequestUtil.requestByteData((byte) 3, (short) 2, ProtoUtil.getMReqQuery(2,
+                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqCurDriverAttnd(13769185))));
     }
 
     @Override
-    public void succeed(byte servicetype,int subtype,ByteString bytes) {  //返回数据
-        LogUtils.i("mRespNoticeList",servicetype+"--"+subtype);
-        if (servicetype == 0x03&&subtype==0x04) { // 数据查询 && 公告查询
-            MReqFileDownProto.MRespNoticeList mRespNoticeList =  ProtoUtil.getMRespNoticeList(bytes);
+    public void succeed(byte servicetype, int subtype, ByteString bytes) {  //返回数据
+        LogUtils.i("mRespNoticeList", servicetype + "--" + subtype);
+        if (servicetype == 0x03 && subtype == 0x04) { // 数据查询 && 公告查询
+            MReqFileDownProto.MRespNoticeList mRespNoticeList = ProtoUtil.getMRespNoticeList(bytes);
             assert mRespNoticeList != null;
             list = mRespNoticeList.getNoticeList();
             if (list == null) {
                 list = new ArrayList<>();
             }
-            LogUtils.i("mRespNoticeList",list.size()+"--"+mRespNoticeList.getNoticeList().size());
-            if (list.size() >0) {
-                dataBaseUtil.deleteAllData(activity,AnnouncementRealm.class,null);
+            LogUtils.i("mRespNoticeList", list.size() + "--" + mRespNoticeList.getNoticeList().size());
+            if (list.size() > 0) {
+                dataBaseUtil.deleteAllData(activity, AnnouncementRealm.class, null);
             }
             dataBaseUtil.addData(this);  //从新添加数据库
-        }else if (servicetype == 0x02&&subtype==0x01) {  //文件下载  &&基础文件下载
+        } else if (servicetype == 0x02 && subtype == 0x01) {  //文件下载  &&基础文件下载
             mRespBasicData = ProtoUtil.getMRespBasicData(bytes);
             assert mRespBasicData != null;
-            LogUtils.i("mRespBasicData",""+mRespBasicData.getBasetaype());
-            if (mRespBasicData.getBasetaype()==0) { //基础数据
-                fileUtil.saveFile(OverallData.sdkPath+"/sqlitedb/","lxkjbase.db", mRespBasicData.getData().toByteArray(),new LoadingDialog(activity));
-            }else if (mRespBasicData.getBasetaype()==1) { //时刻表
-                fileUtil.saveFile(OverallData.sdkPath+"/sqlitedb/","lxkjtrainnums.db", mRespBasicData.getData().toByteArray(),new LoadingDialog(activity));
+            LogUtils.i("mRespBasicData", "" + mRespBasicData.getBasetaype());
+            if (mRespBasicData.getBasetaype() == 0) { //基础数据
+                fileUtil.saveFile(OverallData.sdkPath + "/sqlitedb/", "lxkjbase.db", mRespBasicData.getData().toByteArray(), new LoadingDialog(activity));
+            } else if (mRespBasicData.getBasetaype() == 1) { //时刻表
+                fileUtil.saveFile(OverallData.sdkPath + "/sqlitedb/", "lxkjtrainnums.db", mRespBasicData.getData().toByteArray(), new LoadingDialog(activity));
             }
-        }else if (servicetype == 3 && subtype == 1) { //数据查询，查询司机出勤计划
-            MReqFileDownProto.MRespAttndPlan mAttndPlanInfo = ProtoUtil.getMAttndPlanInfo(bytes);
+        } else if (servicetype == 3 && subtype == 2) { //叫班查询
+            MReqFileDownProto.MRespCurDriverAttnd mAttndPlanInfo = ProtoUtil.getMRespCurDriverAttnd(bytes);
             assert mAttndPlanInfo != null;
-            List<MReqFileDownProto.MAttndPlanInfo> list = mAttndPlanInfo.getInfoList();
-            LogUtils.i("MAttndPlanInfo", "" + list.size());
-            remind(list);
+            MReqFileDownProto.MAttndPlanInfo mAttndPlanInfo1 = mAttndPlanInfo.getAttnd();
+            if (!isConfirm) {
+                remind(mAttndPlanInfo1);
+            }
+
         }
     }
-    private void remind(List<MReqFileDownProto.MAttndPlanInfo> list){
-        for (int i = 0; i < list.size(); i++) {
-            if ((int)System.currentTimeMillis()/1000>=list.get(i).getAttndtime()) { //出勤时间需要大于当前时间
-                int timeLag  = (int) System.currentTimeMillis()/1000 - list.get(i).getAttndtime();
-               final String spinnerData = SharedPreferencesUtil.getStringData(activity,"spinnerData","");
-               final int time = StringUtil.timeInt(spinnerData);
-                if (timeLag>time) { //设定时间后开始提醒
-                    hd.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            String spinnerData2 = SharedPreferencesUtil.getStringData(activity,"spinnerData","");
-                            if (spinnerData2.equals(spinnerData)) {
-                                activity.setDialog();
-                                tts.startSpeaking("距您下次出勤还有"+spinnerData2+",请做好准备");
-                            }
+
+    private void remind(final MReqFileDownProto.MAttndPlanInfo mAttndPlanInfo) {
+        final String spinnerData = SharedPreferencesUtil.getStringData(activity, "spinnerData", "");
+        LogUtils.i("spinnerData", mAttndPlanInfo.getPlandepstation() + "--" + mAttndPlanInfo.getOndutycode());
+        if (mAttndPlanInfo.getPlanondutytime()>(int) (System.currentTimeMillis() / 1000)) { //出勤时间需要大于当前时间
+            int timeLag = mAttndPlanInfo.getPlanondutytime()-(int) (System.currentTimeMillis() / 1000);
+            final int time = StringUtil.timeInt(spinnerData);
+            if (timeLag > time) { //设定时间后开始提醒
+                isConfirm = false;
+                hd.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String spinnerData2 = SharedPreferencesUtil.getStringData(activity, "spinnerData", "");
+                        if (spinnerData2.equals(spinnerData)) {
+                            activity.startAnimation();
+                            SystemUtil.startVibrator(activity);
+                            activity.setDialog("距您下次出勤还有" + spinnerData2 + ",请准备在" + mAttndPlanInfo.getOndutycode(),MainPresenter.this);
+                            tts.startSpeaking("距您下次出勤还有" + spinnerData2 + ",请准备在" + mAttndPlanInfo.getOndutycode());
                         }
-                    },timeLag-time);
-                }else { //如果设定时间以内，立即提醒，弹窗和语音同时提醒
-                    activity.setDialog();
-                    tts.startSpeaking("距您下次出勤还有"+spinnerData+",请做好准备");
-                }
+                    }
+                }, timeLag - time);
+            } else { //如果设定时间以内，立即提醒，弹窗和语音同时提醒
+                activity.startAnimation();
+                SystemUtil.startVibrator(activity);
+                activity.setDialog("距您下次出勤还有" + spinnerData + ",请准备在" + mAttndPlanInfo.getOndutycode(),this);
+                tts.startSpeaking("距您下次出勤还有" + spinnerData + ",请准备在" + mAttndPlanInfo.getOndutycode());
             }
+        }else {
+            activity.startAnimation();
+            SystemUtil.startVibrator(activity);
+            activity.setDialog("距您下次出勤还有" + spinnerData + ",请准备在" + mAttndPlanInfo.getOndutycode(),this);
+            tts.startSpeaking("距您下次出勤还有" + spinnerData + ",请准备在" + mAttndPlanInfo.getOndutycode());
         }
     }
     @Override
@@ -310,11 +334,12 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             announcementEntity.setTitle(list.get(i).getType().toStringUtf8());
             announcementEntity.setContent(list.get(i).getContent().toStringUtf8());
             announcementEntity.setIsShow("0");
-            LogUtils.i(" Announcementtime",System.currentTimeMillis()+"----"+((long)(list.get(i).getTime()))*1000L);
+            LogUtils.i(" Announcementtime", System.currentTimeMillis() + "----" + ((long) (list.get(i).getTime())) * 1000L);
             announcementEntity.setTime(getTime(list.get(i).getTime()));
             realm.copyToRealm(announcementEntity);
         }
     }
+
     @Override
     public void getItem(View view, List<Object> mdatas, final int position) {
         if (position == 0) { //公告查询
@@ -361,13 +386,13 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             //打开指定wifi
 //            WifiConnector wac = new WifiConnector((WifiManager) (OverallData.app.getSystemService(Context.WIFI_SERVICE)));
 //            wac.connect("LXKJ","", WifiConnector.WifiCipherType.WIFICIPHER_NOPASS);//WifiCipherType.WIFICIPHER_NOPASS:WifiCipherType.WIFICIPHER_WPA
-        } else if (position == -5) {  //出勤叫班
+        } else if (position == -5) {  //出勤计划(弃用)
             intent = new Intent(activity, CallTheWatchActivity.class);
             activity.startActivity(intent);
         } else if (position == 5) {  //列车查询
             intent = new Intent(activity, TrainQueryActivity.class);
             activity.startActivity(intent);
-        }else if (position == 6) {  //退勤转储
+        } else if (position == 6) {  //退勤转储
             intent = new Intent(activity, UnloadActivity.class);
             activity.startActivity(intent);
         }
@@ -401,7 +426,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
 
     @Override
     public void onDestroy() {
-
+        SystemUtil.stopVibrator();
     }
 
     //监听滑动栏
@@ -411,6 +436,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                isOpenDrawer = true;
                 initDrawerLayout();
                 setSeekBar();
                 LogUtils.i("ActionBarDrawerToggle", "" + true);
@@ -420,6 +446,7 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                isOpenDrawer = false;
                 LogUtils.i("ActionBarDrawerToggle", "" + false);
             }
 
@@ -430,14 +457,14 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
     private void initDrawerLayout() {//侧滑菜单,设置 内存大小UI
         initSDKUi();
         //创建ArrayAdapter对象
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(activity,android.R.layout.simple_spinner_dropdown_item,arr);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, arr);
         binding.spinner.setAdapter(adapter);
         binding.spinner.setSelection(1);
         binding.spinner.setOnItemSelectedListener(this);
 
         setOnViewClick(binding.drawerTvTaping, binding.drawerTvHearTaping, binding.drawerTvTrainNumber,
                 binding.drawerDataSync, binding.drawerTvSetService, binding.drawerTvNavigation,
-                binding.drawerTvPhotograph, binding.drawerTvVideo,binding.drawerTvRemind);
+                binding.drawerTvPhotograph, binding.drawerTvVideo, binding.drawerTvRemind);
         binding.drawerSetSwitch.setOnCheckedChangeListener(this);
         binding.drawerNightSwitch.setOnCheckedChangeListener(this);
         binding.drawerText4G.setText(NetworkUtils.getNetworkType());
@@ -605,15 +632,23 @@ public class MainPresenter extends BasePresenter implements AdapterView.OnItemSe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String spinnerData = arr[position];  //更改的提醒叫班时间
-        SharedPreferencesUtil.saveStringData(activity,"spinnerData",spinnerData);
-        SharedPreferencesUtil.saveStringData(activity,"spinnerPosition",position+"");
+        SharedPreferencesUtil.saveStringData(activity, "spinnerData", spinnerData);
+        SharedPreferencesUtil.saveStringData(activity, "spinnerPosition", position + "");
         //司机出勤计划查询
         dataModel.getData(RequestUtil.requestByteData((byte) 3, (short) 2, ProtoUtil.getMReqQuery(1,
-                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqAttndPlan(1,(int) System.currentTimeMillis()/1000,(int) System.currentTimeMillis()/1000))));
+                (int) (System.currentTimeMillis() / 1000), ProtoUtil.getMReqAttndPlan(1, (int) System.currentTimeMillis() / 1000, (int) System.currentTimeMillis() / 1000))));
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void confirm() {  //dialog确认的回调
+        isConfirm = true;
+        activity.closeAnimation();
+        SystemUtil.stopVibrator();
+        tts.stopSpeaking();
     }
 }

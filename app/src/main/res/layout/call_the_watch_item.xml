@@ -22,29 +22,12 @@
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.trainnum}"
-                android:textSize="@dimen/text_size14"
-                android:textColor="@color/gray_33"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.attndtime}"
-                android:textSize="@dimen/text_size14"
-                android:textColor="@color/gray_33"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.attndstation}"
                 android:textSize="@dimen/text_size14"
@@ -54,8 +37,9 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.starttime}"
+                android:text="@{viewModel.attndtime}"
                 android:textSize="@dimen/text_size14"
                 android:textColor="@color/gray_33"
                 />
@@ -63,15 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.starttrackno}"
-                android:textSize="@dimen/text_size14"
-                android:textColor="@color/gray_33"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.retreatstation}"
                 android:textSize="@dimen/text_size14"
@@ -81,8 +57,49 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.retreattime}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.starttime}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.starttrackno}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.trainnum}"
+                android:textSize="@dimen/text_size14"
+                android:textColor="@color/gray_33"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.offdutycode}"
                 android:textSize="@dimen/text_size14"
                 android:textColor="@color/gray_33"
                 />

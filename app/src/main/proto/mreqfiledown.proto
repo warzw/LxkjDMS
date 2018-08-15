@@ -82,13 +82,15 @@ message MRespAttndPlan {
     repeated MAttndPlanInfo info = 2; //出勤信息
 }
 message MAttndPlanInfo {
-    required uint32 attndtime = 1; //出勤时间
-    required string trainnum = 2; //车次号
-    required string attndstation = 3; //出乘站
-    required uint32 starttime = 4; //发车时间
-    required uint32 starttrackno = 5; //发车股道
-    required string retreatstation = 6; //退乘车站
-    required uint32 retreattime = 7; //退乘时间
+    required string jobid = 1; //任务ID
+    required string plandepstation = 2; //计划开车站
+    required string plantrainnum = 3; //计划车次
+    required uint32 planondutytime = 4; //计划出勤时间
+    required uint32 plandeptime = 5; //计划开车时间
+    optional string dispmancode = 6; //派班室
+    optional string lowercode = 7; //机调室
+    optional string ondutycode = 8; //出勤点
+    optional string offdutycode = 9; //退勤点
 }
 //列车当前位置查询请求：
 message MReqTrainPos {
@@ -117,8 +119,14 @@ message MArriveInfo {
     required uint32 routertype = 6; //进路类型，通过，停车
     optional uint32 realtime = 7; //到站实际时间
 }
-
-
+//查询当前列车出勤信息(叫班)
+message MReqCurDriverAttnd {
+    required uint32 driverid = 1; //司机号
+}
+//查询当前列车出勤信息 ：响应
+message MRespCurDriverAttnd {
+    required MAttndPlanInfo attnd = 1; //任务ID
+}
 
 
 

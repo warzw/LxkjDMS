@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:background="@color/white"
         tools:context="lxkj.train.com.mvp.view.activity.ServiceSetActivity">
         <TextView
             android:id="@+id/tv_1"
@@ -110,10 +111,12 @@
             android:textSize="14dp"
             android:textColor="@color/gray_33"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             />
         <EditText
             android:id="@+id/tv_10"
-            android:background="@null"
+            android:background="@drawable/key_back_shape"
+            android:padding="5dp"
             android:layout_below="@+id/tv_8"
             android:layout_toRightOf="@+id/tv_9"
             android:layout_width="wrap_content"
@@ -132,20 +135,21 @@
             android:textSize="14dp"
             android:textColor="@color/gray_33"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             />
         <EditText
             android:id="@+id/tv_12"
-            android:background="@null"
+            android:background="@drawable/key_back_shape"
             android:layout_below="@+id/tv_9"
             android:layout_toRightOf="@+id/tv_9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="80"
+            android:padding="5dp"
             android:textSize="14dp"
             android:textColor="@color/gray_33"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             />
         <TextView
             android:id="@+id/tv_13"
@@ -156,43 +160,48 @@
             android:textSize="14dp"
             android:textColor="@color/gray_33"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             />
         <EditText
             android:id="@+id/tv_14"
-            android:background="@null"
+            android:background="@drawable/key_back_shape"
             android:layout_below="@+id/tv_11"
             android:layout_toRightOf="@+id/tv_9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4212156"
             android:textSize="14dp"
+            android:padding="5dp"
             android:textColor="@color/gray_33"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             />
         <TextView
             android:id="@+id/tv_15"
             android:layout_below="@+id/tv_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/set_back_shape"
             android:text="取消"
-            android:textColor="@color/tabIndicatorColor"
+            android:padding="5dp"
+            android:textColor="@color/white"
             android:textSize="16dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             />
         <TextView
             android:id="@+id/tv_16"
+            android:padding="5dp"
             android:layout_below="@+id/tv_14"
             android:layout_toRightOf="@+id/tv_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="确定"
-            android:textColor="@color/tabIndicatorColor"
+            android:background="@drawable/set_back_shape"
+            android:textColor="@color/white"
             android:textSize="16dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             />
     </RelativeLayout>
 </layout>

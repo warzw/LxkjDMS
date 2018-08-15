@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,8 +26,9 @@ import lxkj.train.com.view.TitleBar;
  */
 
 public class SystemUtil {
-
+    private static Handler hd = new Handler();
     private static String version;
+    private static Vibrator vibrator;
 
     public static String getVersionName(Context context) {
         // 获取packagemanager的实例
@@ -101,5 +104,16 @@ public class SystemUtil {
             fl_toolbar_base.setLayoutParams(lp);
         }
 
+    }
+    private static boolean isStop;
+    public static void startVibrator(BaseActivity activity){
+        if (vibrator == null) {
+            vibrator = (Vibrator)activity.getSystemService(activity.VIBRATOR_SERVICE);
+        }
+        vibrator.vibrate(2000);
+    }
+    public static void stopVibrator(){
+        vibrator.cancel();
+        isStop = true;
     }
 }

@@ -93,7 +93,7 @@ public class LoginPresenter extends BasePresenter {
                 Toast.makeText(activity, "请输入工号", Toast.LENGTH_SHORT).show();
                 return;
             }
-            SharedPreferencesUtil.saveStringData(activity,"locomotiveDepot ",content);
+            SharedPreferencesUtil.saveStringData(activity,"locomotiveDepot ",binding.tv6.getText().toString().trim()+":"+binding.tv7.getText().toString().trim());
             SharedPreferencesUtil.saveStringData(activity,"driverNum",binding.et21.getText().toString().trim());
             OverallData.driverNum = binding.et21.getText().toString().trim();
             Intent intent = new Intent(activity, MainActivity.class);

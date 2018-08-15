@@ -20,6 +20,8 @@ import lxkj.train.com.R;
 
 public class DialogView {
 
+    private static Dialog dialog5;
+
     //可以取消的dialog
     @SuppressLint("NewApi")
     public static void hintDialog(Context context, final DialogConfirm dialogConfirm, String title,String content, boolean ishow) {
@@ -70,7 +72,10 @@ public class DialogView {
         if (context == null) {
             return;
         }
-        final Dialog dialog5 = new Dialog(context, R.style.selectorDialog);
+        if (dialog5 != null&&dialog5.isShowing()) {
+            return;
+        }
+        dialog5 = new Dialog(context, R.style.selectorDialog);
         dialog5.setCancelable(false);
         dialog5.setCanceledOnTouchOutside(false);
         final View view = LayoutInflater.from(context).inflate(R.layout.dialog_exit, null);

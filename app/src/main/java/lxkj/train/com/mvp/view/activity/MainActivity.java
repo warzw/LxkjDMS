@@ -28,6 +28,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        if (mainPresenter.isOpenDrawer) { //侧滑菜单是否打开，如果打开就关闭
+            mainPresenter.binding.drawerLayout.closeDrawers();
+            return;
+        }
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             Toast.makeText(this,"再按一次推出程序", Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();

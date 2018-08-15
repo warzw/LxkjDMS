@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -46,6 +48,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public ViewClicksInterface viewClicksInterface;
     public ActivityBackPressedInterface backPressedInterface;
     public BaseApplication app;
+    private View alarm_top;
+    private View alarm_bottom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         app = (BaseApplication) getApplication();
         mTitle_bar = findViewById(R.id.title_bar);
         fl_toolbar_base = findViewById(R.id.fl_toolbar_base);
+        alarm_top = findViewById(R.id.alarm_top);
+        alarm_bottom = findViewById(R.id.alarm_bottom);
         mView = LayoutInflater.from(this).inflate(getLayoutId(), null);
         fl_toolbar_base.addView(mView);
         app = (BaseApplication) getApplication();
@@ -188,7 +195,38 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onRestoreInstanceState(savedInstanceState);
 
     }
-    public void setDialog(){
-        DialogView.hintDialog(this,null,"叫班提醒","距您下次出勤还有15分钟,请准备",false);
+    public void setDialog(String content,DialogView.DialogConfirm dialogConfirm){
+        DialogView.showDialog(this,dialogConfirm,"叫班提醒",content,false);
+    }
+    public void startAnimation() {
+        alarm_top.setVisibility(View.VISIBLE);
+        alarm_bottom.setVisibility(View.VISIBLE);
+        alpha();
+    }
+
+    public void closeAnimation() {
+        alarm_bottom.clearAnimation();
+        alarm_top.clearAnimation();
+        alarm_bottom.setVisibility(View.GONE);
+        alarm_top.setVisibility(View.GONE);
+    }
+    /**
+     * 淡入淡出动画方法
+     *
+     * @param
+     */
+    public void alpha() {
+        // 创建透明度动画，第一个参数是开始的透明度，第二个参数是要转换到的透明度
+        AlphaAnimation alphaAni = new AlphaAnimation(1f, 0);
+        //设置动画执行的时间，单位是毫秒
+        alphaAni.setDuration(500);
+        // 设置动画重复次数
+        // -1或者Animation.INFINITE表示无限重复，正数表示重复次数，0表示不重复只播放一次
+        alphaAni.setRepeatCount(Animation.INFINITE);
+        // 设置动画模式（Animation.REVERSE设置循环反转播放动画,Animation.RESTART每次都从头开始）
+        alphaAni.setRepeatMode(Animation.REVERSE);
+        // 启动动画
+        alarm_bottom.startAnimation(alphaAni);
+        alarm_top.startAnimation(alphaAni);
     }
 }

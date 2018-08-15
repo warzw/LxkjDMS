@@ -9,6 +9,18 @@ public class CallTheWatchEntity {
     private String attndtime;
     private String attndstation;
     private String starttime;
+    private String starttrackno;
+    private String retreatstation;
+    private String retreattime;
+    private String offdutycode;
+    public String getOffdutycode() {
+        return offdutycode;
+    }
+
+    public void setOffdutycode(String offdutycode) {
+        this.offdutycode = offdutycode;
+    }
+
 
     public String getTrainnum() {
         return trainnum;
@@ -66,7 +78,4 @@ public class CallTheWatchEntity {
         this.retreattime = retreattime;
     }
 
-    private String starttrackno;
-    private String retreatstation;
-    private String retreattime;
 }

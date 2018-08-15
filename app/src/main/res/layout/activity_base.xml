@@ -13,4 +13,18 @@
         android:layout_below="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <View
+        android:id="@+id/alarm_top"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/alarm_top_shape"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/alarm_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/alarm_shape"
+        android:visibility="gone" />
 </RelativeLayout>
